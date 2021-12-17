@@ -73,6 +73,32 @@ public class Inode {
 		return true;
 	}
 
+	//sets target block
+	public int setTargetBlock(int offset, short block){
+		int target = offset / 512;
+
+		if(target < directSize){
+			if(direct[target] >= 0)
+				return -1;
+		
+			if((target > 0) && (direct[target - 1] == -1))
+				return -2;
+
+			direct[target] = block;
+			return target; //return target or 0?
+		}
+		else if(indirect >= 0){
+			byte[] data = new byte[512];
+			SysLib.rawread(indirect, data);
+			int blockSpace = (target - directSize) * 2;
+			SysLib.short2bytes(block, data, blockSpace);
+			SysLib.rawwrite(blockSpace, data);
+			return target; //return target or 0?
+		}
+
+		return -3;
+	}
+
 	//find target block 
 	public int findTargetBlock(int targetNum){
 		//initialize targetBlock
