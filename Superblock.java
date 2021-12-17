@@ -6,7 +6,7 @@ public class Superblock {
     public int freeList;
 	
 	// you implement
-	public SuperBlock( int diskSize ) {
+	public Superblock( int diskSize ) {
 		// read the superblock from disk	
 		//initialize block byte array
 		byte[] superBlock = new byte[Disk.blockSize];

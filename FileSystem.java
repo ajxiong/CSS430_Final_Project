@@ -139,7 +139,7 @@ public class FileSystem {
             int offset   = 0;              // buffer offset
             int left     = buffer.length;  // the remaining data of this buffer
             
-            while(offset < left)){//change to zero or offset?
+            while(offset < left){//change to zero or offset?
                 //determine target block
                 int targetBlock = ftEnt.inode.findTargetBlock(ftEnt.seekPtr);
                 //if targetblock returns invalid
@@ -151,8 +151,8 @@ public class FileSystem {
                     switch(targetBlock){
                         case -1:
                         case -2: return -1;
-                        case -3{
-                            if(!ftEnt.inode.setIndexBlock(short)superBlock.getFreeBlock() || ftEnt.inode.setTargetBlock(ftEnt.seekPtr, newBlock) != 0)
+                        case -3:{
+                            if(!ftEnt.inode.setIndexBlock((short)superBlock.getFreeBlock()) || ftEnt.inode.setTargetBlock(ftEnt.seekPtr, newBlock) != 0)
                                 return -1;
                         }
                         break;
