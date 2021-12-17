@@ -1,5 +1,5 @@
 public class FileSystem {
-    private SuperBlock superblock;
+    private Superblock superblock;
     private Directory directory;
     private FileTable filetable;
 
@@ -55,6 +55,8 @@ public class FileSystem {
     FileTableEntry open( String filename, String mode ) {
         // filetable entry is allocated
 
+        return null;
+
     }
 
     boolean close( FileTableEntry ftEnt ) {
@@ -72,6 +74,8 @@ public class FileSystem {
 
     int fsize( FileTableEntry ftEnt ) {
 
+
+        return 0;
     }
 
 
@@ -87,6 +91,7 @@ public class FileSystem {
 
 
         }
+        return 0;
     }
 
     int write( FileTableEntry ftEnt, byte[] buffer ) {
@@ -100,9 +105,41 @@ public class FileSystem {
     
 
         }
+        return 0;
     }
 
     private boolean deallocAllBlocks( FileTableEntry ftEnt ) {
+        //if there is only one block or ftEnt is Null, theres no need to dealloc all of the blocks, return false
+        if(ftEnt.inode.count != 1 || ftEnt == null) {
+            return false;
+        }
+
+
+        byte[] blocks = entry.inode.freeIndirect();
+
+
+        //loop through inode vector list located in filetable entry ftEnt
+        for(int i = 0; i < ftEnt.inode.direct.length;i++){ 
+            //if direct does not equal -1
+            if(ftEnt.inode.direct[i] != -1) {
+                //make superblock return the direct of the associated inode, so that it becomes free
+                superblock.returnBlock((int)ftEnt.inode.direct[i]) ;
+                //change current ftent inode direct to -1 so its marked deallocated
+                ftEnt.inode.direct[i] = -1;
+                }
+
+            
+
+
+        }
+
+
+        //write to disk
+        ftEnt.inode.toDisk(ftEnt.iNumber);
+
+
+
+
 
         return true;
     }
@@ -130,6 +167,7 @@ public class FileSystem {
             */
 			
 		}
-
+        return 0;
     }
+    
 }
