@@ -85,7 +85,7 @@ public class Inode {
 				return -2;
 
 			direct[target] = block;
-			return target; //return target or 0?
+			return target; 
 		}
 		else if(indirect >= 0){
 			byte[] data = new byte[512];
@@ -93,7 +93,7 @@ public class Inode {
 			int blockSpace = (target - directSize) * 2;
 			SysLib.short2bytes(block, data, blockSpace);
 			SysLib.rawwrite(blockSpace, data);
-			return target; //return target or 0?
+			return target; 
 		}
 
 		return -3;
