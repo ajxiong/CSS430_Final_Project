@@ -5,7 +5,7 @@ public class FileSystem {
 
     public FileSystem( int diskBlocks ) {
         // create superblock, and format disk with 64 inodes in default
-        superblock = new SuperBlock( diskBlocks );
+        superblock = new Superblock( diskBlocks );
     
         // create directory, and register "/" in directory entry 0
         directory = new Directory( superblock.inodeBlocks );
